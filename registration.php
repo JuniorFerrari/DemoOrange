@@ -17,7 +17,7 @@
     <?php require 'partials/header.php'?>
     <main class="p-5 ">
         <div class="container-xxl w-25">
-            <form action="scripts/auth_reg.php" method="post">
+            <form action="scripts/ajax_reg.php" method="post">
                 <h3>Регистрация</h3>
                 <div class="mb-3">
                     <label  class="form-label">Фамилия</label>

@@ -1,4 +1,5 @@
 <header>
+    <?php require_once 'scripts/connect.php'?>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-xxl">
             <a class="" href="index.php"><img class="logo__img" src="img/logo.jpg" alt=""></a>
@@ -18,12 +19,20 @@
                     <li class="nav-item">
                         <a class="nav-link" href="about.php">О нас</a>
                     </li>
-
                 </ul>
+                <?php if(isset($_SESSION['user']) && !empty($_SESSION['user'])): ?>
                 <div class="">
                     <a href="cart.php" class="btn btn-warning">Корзина</a>
                     <a href="account.php" class="btn btn-success">Личный кабинет</a>
+                    <a href="scripts/logout.php" class="btn btn-warning">Выход</a>
                 </div>
+                <?php else: ?>
+                <div class="">
+                    <a href="registration.php" class="btn btn-warning">Регистрация</a>
+                    <a href="login.php" class="btn btn-warning">Вход</a>
+
+                </div>
+                <?php endif; ?>
             </div>
         </div>
     </nav>

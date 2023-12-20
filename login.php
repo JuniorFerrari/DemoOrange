@@ -1,42 +1,45 @@
-
-<!doctype html>
+<?php
+session_start();
+require 'scripts/connect.php';
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Логин</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>FUNTIME | Login Page</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
-<div id="app">
-    <?php require 'partials/header.php'?>
-    <main class="p-5 ">
-        <div class="container-xxl w-25">
-            <form>
-                <h3>Вход</h3>
 
+<div id="app">
+    <?php require_once "partials/header.php" ?>
+
+    <main class="main">
+        <section id="login" class="d-flex flex-column align-items-center custom-auth">
+            <div id="errorsWrapper" class="w-50">
+            </div>
+            <form class="w-50" method="post">
+                <h1 class="fs-3 mb-3">Вход</h1>
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    <label for="exampleInputEmail1" class="form-label">Почта</label>
+                    <input type="email" class="form-control" id="email" name="email">
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
+                    <label for="exampleInputPassword1" class="form-label">Пароль</label>
+                    <input type="password" class="form-control" id="name" name="password">
                 </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Вход</button>
+                <button type="submit" class="btn btn-primary custom-bg">Войти</button>
             </form>
-        </div>
+        </section>
     </main>
-    <?php require 'partials/footer.php'?>
+
+    <?php require_once "partials/footer.php" ?>
 </div>
+<script src="js/jquery-3.7.1.js"></script>
+<script src="js/main.js"></script>
+
 <script src="js/bootstrap.js"></script>
 </body>
 </html>

@@ -1,157 +1,85 @@
-<!doctype html>
+<?php
+session_start();
+/**
+ * @var PDO $db
+ **/
+require 'scripts/connect.php';
+
+$select_categories_query = 'select * from categories';
+$select_categories = $db->prepare($select_categories_query);
+$select_categories->execute();
+
+$categories = $select_categories->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
-    <title>Каталог</title>
 </head>
 <body>
-<?php require 'partials/header.php' ?>
-<main>
-    <section id="products">
-        <div class="container-xxl">
-            <h3 class="mb-5">Каталог</h3>
-            <div class="row">
-                <div class="col-4">
-                    <div class="p-3 bg-secondary bg-opacity-10">
-                        <form action="">
+<div id="app">
+    <?php require_once "partials/header.php" ?>
+
+    <main class="main">
+        <section id="catalog" class="mt-4">
+            <div class="container-xl">
+                <h1 class="fs-2 text-black">Каталог</h1>
+                <div class="row">
+                    <div class="col-4 mt-2 bg-secondary bg-opacity-10">
+                        <form action="" method="GET" class="p-3">
                             <div class="form-group mb-3">
-                                <label for="search" class="form-label">Поиск</label>
-                                <input type="text" id="search" name="search" class="form-control"
-                                       placeholder="Поиск по названию">
+                                <label for="search_products" class="form-label">Поиск</label>
+                                <input placeholder="Поиск по названию" type="text" id="search" name="name" class="form-control">
                             </div>
                             <div class="form-group mb-3">
-                                <label for="category" class="form-label">Катеории</label>
-                                <select class="form-select" name="category" id="category" multiple>
-                                    <option selected value="3">Ролевые</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="4">Three</option>
+                                <label for="categories" class="form-label">Категории</label>
+                                <select class="form-select" id="categories" name="category_ids[]" multiple aria-label="Multiple select example">
+                                    <?php foreach ($categories as $category):?>
+                                        <option value="<?=$category['id']?>"><?=$category['title']?></option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="order" class="form-label">Сортировка</label>
-                                <select class="form-select" name="category" id="category">
-                                    <option selected value="ASC">Сначала недорогие</option>
+                                <select class="form-select" id="order" name="order">
+                                    <option selected value="ASC">Сначала не дорогие</option>
                                     <option value="DESC">Сначала дорогие</option>
                                 </select>
                             </div>
-
-                            <button type="submit" class="btn btn-primary w-100">Показать</button>
+                            <button class="btn btn-primary w-100 custom-bg" type="submit">Показать</button>
                         </form>
                     </div>
-                </div>
-                <div class="col-8">
-                    <div class="row row-cols-3 g-4">
-                        <div class="col">
-                            <div class="card ">
-                                <img src="img/item3.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <a href="catalog.php?category=3" class="card-text text-decoration-none fw-light">Ролевые</a>
-                                    <div class="">
-                                        <a href="catalog.php" class="card-title fs-5 text-decoration-none text-reset">Cyberpunk
-                                            RED</a>
-                                    </div>
-                                    <h2 class="mb-3 card-title">9 900</h2>
-                                    <a href="#" class="btn btn-primary">В корзину</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card ">
-                                <img src="img/item3.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <a href="catalog.php?category=3" class="card-text text-decoration-none fw-light">Ролевые</a>
-                                    <div class="">
-                                        <a href="catalog.php" class="card-title fs-5 text-decoration-none text-reset">Cyberpunk
-                                            RED</a>
-                                    </div>
-                                    <h2 class="mb-3 card-title">9 900</h2>
-                                    <a href="#" class="btn btn-primary">В корзину</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card ">
-                                <img src="img/item3.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <a href="catalog.php?category=3" class="card-text text-decoration-none fw-light">Ролевые</a>
-                                    <div class="">
-                                        <a href="catalog.php" class="card-title fs-5 text-decoration-none text-reset">Cyberpunk
-                                            RED</a>
-                                    </div>
-                                    <h2 class="mb-3 card-title">9 900</h2>
-                                    <a href="#" class="btn btn-primary">В корзину</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card ">
-                                <img src="img/item3.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <a href="catalog.php?category=3" class="card-text text-decoration-none fw-light">Ролевые</a>
-                                    <div class="">
-                                        <a href="catalog.php" class="card-title fs-5 text-decoration-none text-reset">Cyberpunk
-                                            RED</a>
-                                    </div>
-                                    <h2 class="mb-3 card-title">9 900</h2>
-                                    <a href="#" class="btn btn-primary">В корзину</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card ">
-                                <img src="img/item3.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <a href="catalog.php?category=3" class="card-text text-decoration-none fw-light">Ролевые</a>
-                                    <div class="">
-                                        <a href="catalog.php" class="card-title fs-5 text-decoration-none text-reset">Cyberpunk
-                                            RED</a>
-                                    </div>
-                                    <h2 class="mb-3 card-title">9 900</h2>
-                                    <a href="#" class="btn btn-primary">В корзину</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card ">
-                                <img src="img/item3.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <a href="catalog.php?category=3" class="card-text text-decoration-none fw-light">Ролевые</a>
-                                    <div class="">
-                                        <a href="catalog.php" class="card-title fs-5 text-decoration-none text-reset">Cyberpunk
-                                            RED</a>
-                                    </div>
-                                    <h2 class="mb-3 card-title">9 900</h2>
-                                    <a href="#" class="btn btn-primary">В корзину</a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-8">
+                        <div id="productsWrapper" class="row mb-4 row-cols-sm-1 row-cols-lg-2 row-cols-xl-3 g-3">
 
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <nav class="mt-3 d-flex justify-content-center" aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="page-item"><a class="page-link custom-text" href="#">Назад</a></li>
+                                        <li class="page-item"><a class="page-link custom-text" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link custom-text" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link custom-text" href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link custom-text" href="#">Вперёд</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
-            <nav class="mt-4" aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
-            </nav>
-        </div>
-    </section>
-
-</main>
-
-<?php require 'partials/footer.php'?>
-
-<script src="js/bootstrap.js"></script>
+        </section>
+    </main>
+    <?php require_once "partials/footer.php" ?>
+</div>
+<script src="js/jquery-3.7.1.js"></script>
+<script src="js/main.js"></script>
+<script src="js/bootstrap.bundle.js"></script>
 </body>
 </html>

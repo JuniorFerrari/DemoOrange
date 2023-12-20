@@ -1,51 +1,45 @@
 <?php
 session_start();
+
 require 'connect.php';
+
+json_decode(file_get_contents("php://input"));
 
 $surname = $_POST['surname'];
 $name = $_POST['name'];
-$patronymic = $_POST['patronymic'] ?? NULL;
+$patronymic = $_POST['patronymic'];
 
 $email = $_POST['email'];
 $password = $_POST['password'];
-$confirmPassword = $_POST['confirmpassword'];
+$confirmpassword = $_POST['confirmpassword'];
 
 $errors = [];
 
-if ($password !== $confirmPassword) {
+if ($password !== $confirmpassword){
     $errors[] = 'Пароли не совпадают';
 }
 
 $password = md5($password);
-
 $select_query = "SELECT id FROM `users` WHERE email = :email";
 $insert_query = "INSERT INTO `users` (name,surname,patronymic,email,password) VALUES (:name,:surname,:patronymic,:email,:password)";
 
 $select_query = $db->prepare($select_query);
 $insert_query = $db->prepare($insert_query);
 
-$select_id = $select_query->execute(compact("email"));
-if($select_id){
+$select_query->execute(compact("email"));
+
+if($select_query->fetch(PDO::FETCH_ASSOC)){
     $errors[]= 'Такой пользователь уже зарегистрирован';
-}else{
-
 }
-
 
 if (!empty($errors)){
-    $_SESSION['auth_errors'] = $errors;
-    header('location:' . $_SERVER['HTTP_REFERER']);
+    echo json_encode(compact('errors'));
     die();
 }
-
 $insert_query->execute(compact("surname","name","patronymic","email","password"));
 
-$rawUserData = $db->query('select LAST_INSERT_ID()');
-$user = $rawUserData->fetchAll(PDO::FETCH_ASSOC);
+$rawUserData = $db->query('select * from users where id = LAST_INSERT_ID()');
+$user = $rawUserData->fetch(PDO::FETCH_ASSOC);
 
-$_SESSION['isAuth'] = true;
-$_SESSION['user'] = $user;
-
-header("Location: ../account.php");
-
-
+echo json_encode(compact('user'));
+die();
