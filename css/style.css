@@ -1,0 +1,66 @@
+* {
+  margin: 0;
+  padding: 0; }
+  * .logo__img {
+    width: 80px; }
+
+#carousel .carousel-item {
+  height: 920px; }
+  #carousel .carousel-item .carousel__img {
+    height: 100%;
+    object-fit: cover; }
+  #carousel .carousel-item.position-relative {
+    position: relative; }
+    #carousel .carousel-item.position-relative img {
+      width: 100%;
+      display: block; }
+    #carousel .carousel-item.position-relative .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      z-index: 2;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5));
+      pointer-events: none; }
+    #carousel .carousel-item.position-relative .carousel-caption {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.5);
+      width: 100%;
+      padding: 10px;
+      color: #fff; }
+      #carousel .carousel-item.position-relative .carousel-caption.d-md-block {
+        display: block; }
+      #carousel .carousel-item.position-relative .carousel-caption.d-none {
+        display: none; }
+
+#bloquote {
+  background-color: #ffa500; }
+
+#popular_products .carousel-inner {
+  max-width: 70.5%; }
+
+#feedback {
+  background: url("../img/item1.jpg") no-repeat center/cover; }
+
+#cart .card img {
+  width: 170px; }
+
+#close__button {
+  position: absolute;
+  right: 10px;
+  top: 10px; }
+
+#app {
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh; }
+
+main {
+  flex: 1 0 auto; }
+
+/*# sourceMappingURL=style.css.map */
