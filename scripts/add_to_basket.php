@@ -1,12 +1,12 @@
 <?php
 require 'connect.php';
 session_start();
-json_decode(file_get_contents('php://input'));
-$productId = $_POST['productId'];
+$data = json_decode(file_get_contents('php://input'), true);
+$productId = $data['productId'];
 $userId = $_SESSION['user']['id'];
 
 
-$select_cart_query = "select id,amount from carts where user_id = $userId and product_id = $productId";
+$select_cart_query = "select id, amount from carts where user_id = $userId and product_id = $productId";
 $insert_product_query = "insert into carts(user_id,product_id,amount) values($userId, $productId, 1)";
 
 $select_cart = $db->query($select_cart_query)->fetch(PDO::FETCH_ASSOC);
@@ -22,8 +22,5 @@ if (!$select_cart){
     $db->query($update_cart_query);
 }
 
-
-
-
-
 echo json_encode('success');
+die();
