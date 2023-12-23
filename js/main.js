@@ -69,6 +69,42 @@ async function getProducts() {
     })
 }
 
+async function getCart() {
+    const response = await fetch('./scripts/get_cart.php')
+
+    const products = await response.json()
+
+    const productsWrapper = $('#cartProductsWrapper')
+
+
+    productsWrapper.empty()
+    products.forEach(product => {
+        const card = `<div class="col">
+                                    <div class="card mb-3 position-relative" data-id="${product.id}">
+                                        <div class="row g-0">
+                                            <div class="col-md-4">
+                                                <img src="./img/${product.img}.jpg" class="img-fluid rounded-start" alt="Картинка товара" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${product.title}</h5>
+                                                    <p class="fs-3 fw-medium">${product.price} Р</p>
+                                                    <form action="#" class="position-relative d-inline-flex gap-1">
+                                                        <button class="count-button btn btn-primary custom-bg minus">-</button>
+                                                        <input class="form-control text-center" value="${product.amount}" min="0" max="10" type="number" id="count-input">
+                                                        <button class="count-button btn btn-primary custom-bg plus">+</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="close-button btn btn-outline-danger">&times;</button>
+                                    </div>
+                                </div>`
+        productsWrapper.append(card)
+    })
+    const total = products.reduce((total,product) => total + product.amount*product.price, 0 )
+    $('#total').text('Итог: ' + total + ' P')
+}
 $(function () {
     if ($('section#registration')[0]) {
         auth('scripts/ajax_reg.php')
@@ -82,6 +118,7 @@ $(function () {
         $('form input[name="name"]').on('input', getProducts)
         $('form select[name="category_ids[]"]').on('change', getProducts)
         $('form select[name="order"]').on('change', getProducts)
+
         $('#productsWrapper').on('click',  async (e)=>{
             const target = e.target
             if (!target.classList.contains('basket-button')){
@@ -95,6 +132,10 @@ $(function () {
                 },
                 body: JSON.stringify({productId: productId})
             })
+            const data = await response.json()
         })
+    }
+    if ($('section#cart')[0]){
+        getCart()
     }
 })
