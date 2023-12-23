@@ -90,9 +90,9 @@ async function getCart() {
                                                     <h5 class="card-title">${product.title}</h5>
                                                     <p class="fs-3 fw-medium">${product.price} Р</p>
                                                     <form action="#" class="position-relative d-inline-flex gap-1">
-                                                        <button class="count-button btn btn-primary custom-bg minus">-</button>
+                                                        <button type="button" class="count-button btn btn-primary custom-bg minus">-</button>
                                                         <input class="form-control text-center" value="${product.amount}" min="0" max="10" type="number" id="count-input">
-                                                        <button class="count-button btn btn-primary custom-bg plus">+</button>
+                                                        <button type="button" class="count-button btn btn-primary custom-bg plus">+</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -140,20 +140,35 @@ $(function () {
 
         $('#cartProductsWrapper').on('click',async e =>{
             const target = e.target
-            if (!target.classList.contains('close-button')){
-                return
+            if (target.classList.contains('close-button')){
+                const productId = target.closest('.card').dataset.id
+
+                const response = await fetch('./scripts/delete_from_cart.php',{
+                    method: "POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body: JSON.stringify({productId:productId})
+                })
+                const data = await response.json();
+
+                getCart()
+            }
+            if (target.classList.contains('count-button')){
+                const countInput = $(target).parent().find('input')
+
+
+                if (target.classList.contains('minus')){
+                    if (countInput.val()>1)
+                        countInput.val(+countInput.val()-1)
+
+                } else{
+                    if (countInput.val()<10)
+                        countInput.val(+countInput.val()+1)
+                }
             }
 
-            const productId = target.closest('.card').dataset.id
-
-            const response = await fetch('./scripts/delete_from_cart.php',{
-                method: "POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body: JSON.stringify({productId:productId})
-            })
-            const data = await response.json();
         })
+
     }
 })
