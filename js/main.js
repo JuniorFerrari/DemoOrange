@@ -140,7 +140,7 @@ $(function () {
 
         $('#cartProductsWrapper').on('click',async e =>{
             const target = e.target
-            if (!target.classList.contains('class-button')){
+            if (!target.classList.contains('close-button')){
                 return
             }
 
