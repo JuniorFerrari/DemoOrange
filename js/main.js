@@ -137,5 +137,23 @@ $(function () {
     }
     if ($('section#cart')[0]){
         getCart()
+
+        $('#cartProductsWrapper').on('click',async e =>{
+            const target = e.target
+            if (!target.classList.contains('class-button')){
+                return
+            }
+
+            const productId = target.closest('.card').dataset.id
+
+            const response = await fetch('./scripts/delete_from_cart.php',{
+                method: "POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({productId:productId})
+            })
+            const data = await response.json();
+        })
     }
 })
