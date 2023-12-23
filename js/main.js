@@ -59,7 +59,7 @@ async function getProducts() {
                                         <a href="#" class="card-title fs-5 text-decoration-none fw-medium">${product.title}</a>
                                     </div>
                                     <h4 class="mb-3">${product.price}Р</h4>
-                                    <button class="btn btn-primary custom-bg">В корзину</button>
+                                    <button class="basket-button btn btn-primary custom-bg">В корзину</button>
                                 </div>
                             </div>
                         </div>`
@@ -78,8 +78,23 @@ $(function () {
         auth('scripts/ajax_log.php')
     }
     if ($('section#catalog')[0]) {
+        getProducts()
         $('form input[name="name"]').on('input', getProducts)
         $('form select[name="category_ids[]"]').on('change', getProducts)
         $('form select[name="order"]').on('change', getProducts)
+        $('#productsWrapper').on('click',  async (e)=>{
+            const target = e.target
+            if (!target.classList.contains('basket-button')){
+                return
+            }
+            const productId = target.closest('.card').dataset.id
+            const response = await fetch('./scripts/add_to_basket.php',{
+                method:'POST',
+                headers:{
+                    "Content-type":"application/json"
+                },
+                body: JSON.stringify({productId: productId})
+            })
+        })
     }
 })
